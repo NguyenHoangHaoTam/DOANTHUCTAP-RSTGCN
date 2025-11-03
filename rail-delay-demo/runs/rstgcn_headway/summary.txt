@@ -1,0 +1,7 @@
+{
+  "best_val_MAE": 9.514925003051758,
+  "target": 4,
+  "window": 2,
+  "slot_minutes": 15,
+  "steps_per_day": 96
+}

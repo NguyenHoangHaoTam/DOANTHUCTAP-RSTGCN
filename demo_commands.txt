@@ -1,0 +1,51 @@
+========================================
+CÁC LỆNH DEMO - WINDOWS CMD
+========================================
+
+⚠️ QUAN TRỌNG: Kích hoạt virtual environment trước khi chạy:
+.venv\Scripts\activate
+
+LƯU Ý: Phải là .venv (có chữ v cuối), KHÔNG phải .ven
+Sau khi kích hoạt, bạn sẽ thấy (.venv) hoặc (.ven) ở đầu dòng prompt.
+
+HOẶC: Chạy file run_demo.bat để tự động activate và chạy demo:
+run_demo.bat
+
+PHƯƠNG ÁN 1: DEMO NHANH (Tự động toàn bộ)
+========================================
+python -m scripts.workflows.quick_demo
+
+Sau đó chạy web app:
+streamlit run app.py
+
+
+PHƯƠNG ÁN 2: DEMO TỪNG BƯỚC (Chi tiết)
+========================================
+
+BƯỚC 1: Thu thập dữ liệu
+python -m scripts.data_acquisition.scrape_runningstatus --urls "lấy trong runningstatus.inin" --date 2025-11-02 --outdir data/templates_all
+
+BƯỚC 2: Làm giàu dữ liệu (Augment delays)
+python -m scripts.preprocessing.augment_delays
+
+BƯỚC 3: Geocoding (Tùy chọn - lấy tọa độ chính xác)
+python -m scripts.preprocessing.geocode_stations --input-csv data/templates_all/stations.csv --output-csv data/templates_all/stations.csv
+
+BƯỚC 4: Chuyển đổi sang định dạng tensor
+python -m scripts.preprocessing.convert_to_rstgcn --stations data/templates_all/stations.csv --edges data/templates_all/edges.csv --stops data/templates_all/stop_times_augmented.csv --slot 50 --outdir data/processed --st-id-col station_code --lat-col lat --lon-col lon
+
+BƯỚC 5: Huấn luyện mô hình RSTGCN
+python -m scripts.modeling.train_rstgcn --data data/processed --window 2 --target 4 --epochs 30 --batch 32 --lr 1e-3 --outdir runs/rstgcn_demo --metrics-csv runs/rstgcn_demo/metrics.csv
+
+BƯỚC 6: Dự đoán trên tập validation
+python -m scripts.modeling.infer_rstgcn --data data/processed --ckpt runs/rstgcn_demo/rstgcn_best.pt --out-csv runs/rstgcn_demo/val_predictions.csv --window 2 --target 4
+
+BƯỚC 7: Vẽ biểu đồ đánh giá
+python -m scripts.analysis.plot_eval --metrics-csv runs/rstgcn_demo/metrics.csv --pred-csv runs/rstgcn_demo/val_predictions.csv --out1 runs/rstgcn_demo/mae_curve.png --out2 runs/rstgcn_demo/station_pred.png
+
+BƯỚC 8: Phân tích dataset (Tùy chọn)
+python -m scripts.analysis.analyze_dataset --data data/processed --outdir runs/dataset_analysis --target 4
+
+BƯỚC 9: Chạy Web App
+streamlit run app.py
+

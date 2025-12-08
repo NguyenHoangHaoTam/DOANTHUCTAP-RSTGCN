@@ -1,0 +1,24 @@
+# bytecode & cache
+__pycache__/
+*.py[cod]
+*.ipynb_checkpoints
+
+# data lớn & kết quả
+data/processed/*.npy
+data/processed/*.npz
+data/processed/*.pkl
+data/templates/*/
+data/raw/
+runs/**/rstgcn_best.pt
+
+# nếu muốn giữ meta + hình + metrics:
+!data/processed/meta.json
+!runs/**/mae_curve.png
+!runs/**/station_pred.png
+!runs/**/metrics.csv
+.venv/
+__pycache__/
+*.pyc
+runs/
+data/processed/
+.ven/

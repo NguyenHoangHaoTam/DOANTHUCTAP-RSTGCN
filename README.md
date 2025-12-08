@@ -12,20 +12,19 @@ Dự án triển khai mô hình **RSTGCN** (Railway-centric Spatio-Temporal Grap
 
 ```
 rail-delay-demo/
-├── app.py                  # Streamlit dashboard
-├── data/                   # Dữ liệu thô & tensor (ignored by git)
-├── docs/
-│   └── DEMO_GUIDE.md       # Hướng dẫn demo 10-30 phút
+├── app.py                 
+├── data/                  
+│   
 ├── models/
 │   └── rstgcn.py
 ├── scripts/
-│   ├── analysis/           # Phân tích & vẽ biểu đồ
-│   ├── data_acquisition/   # Thu thập dữ liệu
-│   ├── modeling/           # Huấn luyện & baseline
-│   ├── preprocessing/      # Làm sạch + chuyển đổi dữ liệu
-│   └── workflows/          # Pipeline trọn gói
+│   ├── analysis/           
+│   ├── data_acquisition/   
+│   ├── modeling/           
+│   ├── preprocessing/     
+│   └── workflows/          
 ├── requirements.txt
-└── README.md               # File này
+└── README.md              
 ```
 
 ### Nhóm script theo chức năng
@@ -49,21 +48,6 @@ pip install -r requirements.txt
 
 Dependencies chính: `torch`, `pandas`, `requests`, `beautifulsoup4`, `geopy`, `streamlit`, `plotly`, `folium`.
 
-## 🚀 Quick start
-
-### 1. Demo trọn gói (10-15 phút)
-
-```bash
-python -m scripts.workflows.quick_demo
-```
-
-Script sẽ tự động kiểm tra dữ liệu, scrape mẫu (nếu cần), augment → convert tensor → train → infer → plot → phân tích dataset. Sau khi hoàn tất, mở dashboard:
-
-```bash
-streamlit run app.py
-```
-
-Chi tiết timeline/thuyết trình xem tại `docs/DEMO_GUIDE.md`.
 
 ### 2. Pipeline thủ công (chia theo chức năng)
 
@@ -177,11 +161,4 @@ streamlit run app.py
 
 Các tab chính: Overview (MAE/RMSE/tổng số ga trễ), Predictions Chart, Map View (Folium + Plotly), Data Table, Detailed Analysis, Custom Forecast.
 
-## 📚 Tài liệu tham khảo & guide
 
-- `docs/DEMO_GUIDE.md`: checklist demo 10-30 phút, flow trình bày, Q&A chuẩn bị.
-- RSTGCN paper: Chowdhury, K. et al. (2025), arXiv:2510.01262.
-
-## 🤝 Đóng góp & License
-
-Mọi ý kiến/PR đều được chào đón. License: **MIT**.
